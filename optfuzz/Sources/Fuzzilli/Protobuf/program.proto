@@ -1,0 +1,158 @@
+// Copyright 2020 Google LLC
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+// https://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
+syntax = "proto3";
+package fuzzilli.protobuf;
+
+import "operations.proto";
+
+message Instruction {
+    // The operation is either encoded as an index, referring to the nth operation
+    // (so that shared operations are also only present once in the protobuf), or
+    // as one of the many concrete Operation messages.
+    repeated uint32 inouts = 1;
+    oneof operation {
+        uint32 opIdx = 2;
+        // TODO fixup keys
+        LoadInteger loadInteger = 5;
+        LoadBigInt loadBigInt = 76;
+        LoadFloat loadFloat = 6;
+        LoadString loadString = 7;
+        LoadBoolean loadBoolean = 8;
+        LoadUndefined loadUndefined = 9;
+        LoadNull loadNull = 10;
+        LoadThis loadThis = 65;
+        LoadArguments loadArguments = 66;
+        LoadRegExp loadRegExp = 77;
+        CreateObject createObject = 11;
+        CreateArray createArray = 12;
+        CreateIntArray createIntArray = 135;
+        CreateFloatArray createFloatArray = 136;
+        CreateTemplateString createTemplateString = 102;
+        CreateObjectWithSpread createObjectWithSpread = 13;
+        CreateArrayWithSpread createArrayWithSpread = 14;
+        LoadBuiltin loadBuiltin = 15;
+        LoadProperty loadProperty = 16;
+        StoreProperty storeProperty = 17;
+        StorePropertyWithBinop storePropertyWithBinop = 112;
+        DeleteProperty deleteProperty = 18;
+        ConfigureProperty configureProperty = 127;
+        LoadElement loadElement = 19;
+        StoreElement storeElement = 20;
+        StoreElementWithBinop storeElementWithBinop = 113;
+        DeleteElement deleteElement = 21;
+        ConfigureElement configureElement = 128;
+        LoadComputedProperty loadComputedProperty = 22;
+        StoreComputedProperty storeComputedProperty = 23;
+        StoreComputedPropertyWithBinop storeComputedPropertyWithBinop = 114;
+        DeleteComputedProperty deleteComputedProperty = 24;
+        ConfigureComputedProperty configureComputedProperty = 129;
+        TypeOf typeOf = 25;
+        TestInstanceOf testInstanceOf = 26;
+        TestIn testIn = 27;
+        BeginPlainFunction beginPlainFunction = 28;
+        EndPlainFunction endPlainFunction = 30;
+        BeginArrowFunction beginArrowFunction = 67;
+        EndArrowFunction endArrowFunction = 68;
+        BeginGeneratorFunction beginGeneratorFunction = 69;
+        EndGeneratorFunction endGeneratorFunction = 70;
+        BeginAsyncFunction beginAsyncFunction = 71;
+        EndAsyncFunction endAsyncFunction = 72;
+        BeginAsyncArrowFunction beginAsyncArrowFunction = 79;
+        EndAsyncArrowFunction endAsyncArrowFunction = 80;
+        BeginAsyncGeneratorFunction beginAsyncGeneratorFunction = 85;
+        EndAsyncGeneratorFunction endAsyncGeneratorFunction = 86;
+        BeginConstructor beginConstructor = 130;
+        EndConstructor endConstructor = 131;
+        Return return = 29;
+        Yield yield = 73;
+        YieldEach yieldEach = 74;
+        Await await = 75;
+        CallFunction callFunction = 32;
+        CallFunctionWithSpread callFunctionWithSpread = 120;
+        Construct construct = 33;
+        ConstructWithSpread constructWithSpread = 121;
+        CallMethod callMethod = 31;
+        CallMethodWithSpread callMethodWithSpread = 122;
+        CallComputedMethod callComputedMethod = 34;
+        CallComputedMethodWithSpread callComputedMethodWithSpread = 123;
+        UnaryOperation unaryOperation = 35;
+        BinaryOperation binaryOperation = 36;
+        TernaryOperation ternaryOperation = 96;
+        ReassignWithBinop reassignWithBinop = 95;
+        Dup dup = 37;
+        Reassign reassign = 38;
+        DestructArray destructArray = 116;
+        DestructArrayAndReassign destructArrayAndReassign = 117;
+        DestructObject destructObject = 118;
+        DestructObjectAndReassign destructObjectAndReassign = 119;
+        Compare compare = 39;
+        Eval eval = 40;
+        BeginClass beginClass = 87;
+        BeginMethod beginMethod = 88;
+        EndClass endClass = 89;
+        CallSuperConstructor callSuperConstructor = 90;
+        CallSuperMethod callSuperMethod = 91;
+        LoadSuperProperty loadSuperProperty = 92;
+        StoreSuperProperty storeSuperProperty = 93;
+        StoreSuperPropertyWithBinop storeSuperPropertyWithBinop = 115;
+        BeginWith beginWith = 41;
+        EndWith endWith = 42;
+        LoadFromScope loadFromScope = 43;
+        StoreToScope storeToScope = 44;
+        BeginIf beginIf = 45;
+        BeginElse beginElse = 46;
+        EndIf endIf = 47;
+        BeginSwitch beginSwitch = 97;
+        BeginSwitchCase beginSwitchCase = 98;
+        BeginSwitchDefaultCase beginSwitchDefaultCase = 126;
+        SwitchBreak switchBreak = 104;
+        EndSwitch endSwitch = 99;
+        EndSwitchCase endSwitchCase = 125;
+        BeginWhile beginWhile = 48;
+        EndWhile endWhile = 49;
+        BeginDoWhile beginDoWhile = 50;
+        EndDoWhile endDoWhile= 51;
+        BeginFor beginFor = 52;
+        EndFor endFor = 53;
+        BeginForIn beginForIn = 54;
+        EndForIn endForIn = 55;
+        BeginForOf beginForOf = 56;
+        BeginForOfWithDestruct beginForOfWithDestruct = 103;
+        EndForOf endForOf = 57;
+        BeginRepeat beginRepeat = 133;
+        EndRepeat endRepeat = 134;
+        LoopBreak loopBreak = 58;
+        LoopContinue loopContinue = 59;
+        BeginTry beginTry = 60;
+        BeginCatch beginCatch = 61;
+        BeginFinally beginFinally = 94;
+        EndTryCatch endTryCatch = 62;
+        ThrowException throwException = 63;
+        BeginCodeString beginCodeString = 81;
+        EndCodeString endCodeString = 82;
+        BeginBlockStatement beginBlockStatement = 83;
+        EndBlockStatement endBlockStatement = 84;
+        Explore explore = 124;
+        Probe probe = 132;
+        Nop nop = 64;
+    }
+}
+
+message Program {
+    bytes uuid = 1;
+    repeated Instruction code = 2;
+    map<sint32, string> comments = 3;
+    Program parent = 4;
+}
